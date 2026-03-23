@@ -1,0 +1,320 @@
+Írok neked egy **lépésről lépésre dokumentációt**, amit konkrétan követni tudsz, és közben el is magyarázom, mi miért történik 👇
+
+---
+
+# 🚀 Laravel CRUD projekt készítése – teljes útmutató
+
+## 📦 1. Projekt létrehozása
+
+```bash
+composer create-project laravel/laravel molnarkaroly_backend
+```
+
+👉 Ez létrehoz egy új Laravel projektet `molnarkaroly_backend` néven.
+
+```bash
+cd molnarkaroly_backend
+```
+
+---
+
+## ⚙️ 2. API környezet beállítása
+
+```bash
+php artisan install:api
+```
+
+👉 Ez:
+
+* API route-okat állít be
+* alap auth struktúrát hoz létre
+
+---
+
+## ❌ 3. Sanctum eltávolítása (ha nem kell auth)
+
+```bash
+composer remove laravel/sanctum
+```
+
+👉 Akkor hasznos, ha:
+
+* nem akarsz bejelentkezést/token alapú auth-ot
+
+---
+
+## 🧱 4. Modell + migráció létrehozása
+
+### Kategória modell
+
+```bash
+php artisan make:model Kategoria -m
+```
+
+👉 Ez létrehoz:
+
+* Model: `app/Models/Kategoria.php`
+* Migration: `database/migrations/...create_kategorias_table.php`
+
+---
+
+### Másik modell CRUD-hoz (pl. Termék)
+
+```bash
+php artisan make:model Termek -mc --api
+```
+
+👉 Ez létrehoz:
+
+* Model
+* Controller (API típusú)
+* Migration
+
+---
+
+## 🗄️ 5. Adatbázis beállítása
+
+`.env` fájlban:
+
+```env
+DB_DATABASE=molnarkaroly
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+👉 Állítsd be a saját adatbázisod szerint.
+
+---
+
+## 🧾 6. Migrációk szerkesztése
+
+### Kategoria migration példa:
+
+```php
+public function up(): void
+{
+    Schema::create('kategorias', function (Blueprint $table) {
+        $table->id();
+        $table->string('nev');
+        $table->timestamps();
+    });
+}
+```
+
+---
+
+### Termek migration példa:
+
+```php
+public function up(): void
+{
+    Schema::create('termeks', function (Blueprint $table) {
+        $table->id();
+        $table->string('nev');
+        $table->integer('ar');
+        $table->foreignId('kategoria_id')->constrained()->cascadeOnDelete();
+        $table->timestamps();
+    });
+}
+```
+
+👉 Itt kapcsolat van a kategóriával (foreign key)
+
+---
+
+## ▶️ 7. Migrálás + seed
+
+```bash
+php artisan migrate --seed
+```
+
+👉 Ez:
+
+* létrehozza a táblákat
+* seedeli az adatokat (ha van Seeder)
+
+---
+
+## 🌱 8. Seeder létrehozása (opcionális)
+
+```bash
+php artisan make:seeder KategoriaSeeder
+```
+
+Példa:
+
+```php
+public function run(): void
+{
+    \App\Models\Kategoria::create([
+        'nev' => 'Elektronika'
+    ]);
+}
+```
+
+Majd `DatabaseSeeder.php`:
+
+```php
+$this->call(KategoriaSeeder::class);
+```
+
+---
+
+## 🧠 9. Modellek beállítása
+
+### Kategoria.php
+
+```php
+protected $fillable = ['nev'];
+
+public function termekek()
+{
+    return $this->hasMany(Termek::class);
+}
+```
+
+---
+
+### Termek.php
+
+```php
+protected $fillable = ['nev', 'ar', 'kategoria_id'];
+
+public function kategoria()
+{
+    return $this->belongsTo(Kategoria::class);
+}
+```
+
+---
+
+## 🎮 10. CRUD Controller (API)
+
+A `TermekController` már létrejött.
+
+### Példa metódusok:
+
+```php
+public function index()
+{
+    return Termek::with('kategoria')->get();
+}
+```
+
+👉 összes adat listázása
+
+---
+
+```php
+public function store(Request $request)
+{
+    return Termek::create($request->all());
+}
+```
+
+👉 új adat létrehozása
+
+---
+
+```php
+public function show($id)
+{
+    return Termek::findOrFail($id);
+}
+```
+
+---
+
+```php
+public function update(Request $request, $id)
+{
+    $termek = Termek::findOrFail($id);
+    $termek->update($request->all());
+    return $termek;
+}
+```
+
+---
+
+```php
+public function destroy($id)
+{
+    return Termek::destroy($id);
+}
+```
+
+---
+
+## 🌐 11. API route-ok
+
+`routes/api.php`:
+
+```php
+use App\Http\Controllers\TermekController;
+
+Route::apiResource('termekek', TermekController::class);
+```
+
+👉 automatikusan létrejön:
+
+* GET /termekek
+* POST /termekek
+* GET /termekek/{id}
+* PUT /termekek/{id}
+* DELETE /termekek/{id}
+
+---
+
+## ▶️ 12. Szerver indítása
+
+```bash
+php artisan serve
+```
+
+👉 alap URL:
+
+```
+http://127.0.0.1:8000/api/termekek
+```
+
+---
+
+# 🧪 Tesztelés (pl. Postman)
+
+### POST
+
+```json
+{
+  "nev": "Laptop",
+  "ar": 250000,
+  "kategoria_id": 1
+}
+```
+
+---
+
+# 📌 Összefoglalás
+
+A projekted tudja:
+
+* ✔ adatbázis kezelés (migration)
+* ✔ modellek
+* ✔ kapcsolatok (hasMany, belongsTo)
+* ✔ CRUD műveletek
+* ✔ REST API
+
+---
+
+## 💡 Extra (hasznos tippek)
+
+* `php artisan route:list` → megnézheted az endpointokat
+* `dd()` → debug
+* `php artisan tinker` → adatbázis teszt
+
+---
+
+Ha akarod, következő lépésben:
+👉 csinálok neked egy **frontendet (pl. React vagy sima HTML + fetch)** ami ezt használja
+👉 vagy validációt / auth-ot is hozzáadunk
+
+Szólj 👍
