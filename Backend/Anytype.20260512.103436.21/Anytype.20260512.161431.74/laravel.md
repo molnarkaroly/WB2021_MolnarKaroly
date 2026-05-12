@@ -43,6 +43,23 @@ migrations
 
 
 ```
+vagy   
+```
+    public function up(): void
+    {
+        Schema::create('ingatlanok', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('kategoria')->references('id')->on('kategoriak');
+            $table->string('leiras');
+            $table->timestamp('hirdetesDatuma')->default(now());
+            $table->boolean('tehermentes');
+            $table->integer('ar');
+            $table->string('kepUrl');
+        });
+    }
+
+
+```
 ha nem kell timestamp:   
 ```
 // a migration fájlbol csak kivesz és a app/modell fájlba kell írni hogy:
