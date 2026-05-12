@@ -1,0 +1,10 @@
+C:\Users\molna\Desktop\c# gyakorlás\Diákok\bin\Debug\Diákok.exe.config
+C:\Users\molna\Desktop\c# gyakorlás\Diákok\bin\Debug\Diákok.exe
+C:\Users\molna\Desktop\c# gyakorlás\Diákok\bin\Debug\Diákok.pdb
+C:\Users\molna\Desktop\c# gyakorlás\Diákok\obj\Debug\Diákok.csproj.AssemblyReference.cache
+C:\Users\molna\Desktop\c# gyakorlás\Diákok\obj\Debug\Diákok.Form1.resources
+C:\Users\molna\Desktop\c# gyakorlás\Diákok\obj\Debug\Diákok.Properties.Resources.resources
+C:\Users\molna\Desktop\c# gyakorlás\Diákok\obj\Debug\Diákok.csproj.GenerateResource.cache
+C:\Users\molna\Desktop\c# gyakorlás\Diákok\obj\Debug\Diákok.csproj.CoreCompileInputs.cache
+C:\Users\molna\Desktop\c# gyakorlás\Diákok\obj\Debug\Diákok.exe
+C:\Users\molna\Desktop\c# gyakorlás\Diákok\obj\Debug\Diákok.pdb

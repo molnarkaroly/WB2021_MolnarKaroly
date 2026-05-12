@@ -1,0 +1,7 @@
+C:\Users\molna\Desktop\c# gyakorlás\Keresztrejtveny\bin\Debug\Keresztrejtveny.exe.config
+C:\Users\molna\Desktop\c# gyakorlás\Keresztrejtveny\bin\Debug\Keresztrejtveny.exe
+C:\Users\molna\Desktop\c# gyakorlás\Keresztrejtveny\bin\Debug\Keresztrejtveny.pdb
+C:\Users\molna\Desktop\c# gyakorlás\Keresztrejtveny\obj\Debug\Keresztrejtveny.csproj.AssemblyReference.cache
+C:\Users\molna\Desktop\c# gyakorlás\Keresztrejtveny\obj\Debug\Keresztrejtveny.csproj.CoreCompileInputs.cache
+C:\Users\molna\Desktop\c# gyakorlás\Keresztrejtveny\obj\Debug\Keresztrejtveny.exe
+C:\Users\molna\Desktop\c# gyakorlás\Keresztrejtveny\obj\Debug\Keresztrejtveny.pdb
